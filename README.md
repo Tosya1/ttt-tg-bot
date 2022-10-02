@@ -11,7 +11,17 @@
 Полученный токен необходимо вставить в строку `application = Application.builder().token("TOKEN").build()` функции main модуля bot.
 ### Библиотеки
 При создании бота использовалась библиотека [python-telegram-bot](https://python-telegram-bot.org/). Для установки воспользуйтесь командой:
-`pip install python-telegram-bot --pre`
+```
+pip install python-telegram-bot --pre
+```
+Клонировать репозиторий:
+```
+git clone https://github.com/Tosya1/ttt-tg-bot.git
+```
+Запуск бота:
+```
+python bot.py
+```
 ## Доступные команды:
 * `/start` - начать новую игру.
 * `/help` - помощь.
