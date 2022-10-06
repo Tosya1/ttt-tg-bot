@@ -40,6 +40,7 @@ async def new_game(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     global keyboard
     global keys
     global game_on
+    
     game_on = True
     players = [update.effective_user.first_name, 'Bot']
     player = toss_player(players)
@@ -90,24 +91,27 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if game_on == True:
         strike = update.callback_query.data
-        board = update_board(board, strike, mark)
-        keys = get_keys_text(board, marks)
-        keyboard = draw_board(board, keys)
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await update.callback_query.answer()
-        await update.effective_chat.send_message(text=f"{player} проставляет {mark} в ячейку: {strike}", reply_markup=reply_markup)
-        if check_win(board) == True:
-            await update.effective_chat.send_message(text=f"Побеждает {player}! 🏆" )
-            await update.effective_chat.send_message("Используйте /new_game, чтобы начать новую игру.")
-            game_on = False
-        elif check_draw(board, marks) != True:
-            await update.effective_chat.send_message(text=f"Ничья! 🤝")
-            await update.effective_chat.send_message("Используйте /new_game, чтобы начать новую игру.")
-            game_on = False
+        if strike in marks:
+            await update.callback_query.answer(text = f'Ячейка занята. {player}, выберите другую ячейку.')   
         else:
-            mark =  marks[marks.index(mark) -1]
-            player =  players[players.index(player) -1]
-            await bot(update, context)
+            board = update_board(board, strike, mark)
+            keys = get_keys_text(board, marks)
+            keyboard = draw_board(board, keys)
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await update.callback_query.answer()
+            await update.effective_chat.send_message(text=f"{player} проставляет {mark} в ячейку: {strike}", reply_markup=reply_markup)
+            if check_win(board) == True:
+                await update.effective_chat.send_message(text=f"Побеждает {player}! 🏆" )
+                await update.effective_chat.send_message("Используйте /new_game, чтобы начать новую игру.")
+                game_on = False
+            elif check_draw(board, marks) != True:
+                await update.effective_chat.send_message(text=f"Ничья! 🤝")
+                await update.effective_chat.send_message("Используйте /new_game, чтобы начать новую игру.")
+                game_on = False
+            else:
+                mark =  marks[marks.index(mark) -1]
+                player =  players[players.index(player) -1]
+                await bot(update, context)
     else:
         await update.callback_query.answer(text = 'Игра завершена. Используйте /new_game, чтобы начать новую игру.')
 
