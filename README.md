@@ -8,7 +8,8 @@
 3) выбор username бота, то есть ссылки, по которой он будет доступен, например `@ttt_pythonBot`.
 Если все действия были выполнены успешно, то [@BotFather](https://t.me/BotFather) предоставит токен для работы бота:
 `Use this token to access the HTTP API: <токен для работы бота>`
-Полученный токен необходимо вставить в строку `application = Application.builder().token("TOKEN").build()` функции main модуля bot.
+
+Полученный токен необходимо вставить в файл token.txt.
 ### Библиотеки
 При создании бота использовалась библиотека [python-telegram-bot](https://python-telegram-bot.org/). Для установки воспользуйтесь командой:
 ```
